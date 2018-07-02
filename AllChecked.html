@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>简单的全选，全不选，反选，提交练习</title>
+</head>
+<body>
+	<form method='post' action=''>
+		<input type='checkbox' id='checkedAllBox' value='全选'>
+		<label for='checkedAllBox' id='alltext'>全选</label>
+		<input type='button' class='checkedRevBt' value='反选'>
+		<input type='button' class='submit' value='提交'>
+		<br>
+		
+		<label><input type='checkbox' name='items' value='诸葛亮'>诸葛亮</label>
+		<label><input type='checkbox' name='items' value='周瑜'>周瑜</label>
+		<label><input type='checkbox' name='items' value='郭嘉'>郭嘉</label>
+		<label><input type='checkbox' name='items' value='司马懿'>司马懿</label>
+		
+	</form>
+<script>
+let addEvent = document.addEventListener ?
+	(elem,type,listener,useCapture)=>{
+		elem.addEventListener(type,listener,useCapture);
+	} : 
+	(elem,type,listener,useCapture)=>{
+		elem.attachEvent('on'+type,listener);
+	};
+let $ = selector=>{
+	return [].slice.call(document.querySelectorAll(selector));
+};
+let checkedAllBox = $('#checkedAllBox')[0];
+// console.log(checkedAllBox);
+let oAlltext = $('#alltext')[0];
+let oRevBt = $('.checkedRevBt')[0];
+let oSubmit = $('.submit')[0];
+let oList = $('input[name="items"]');
+// console.log(oList);
+
+addEvent(checkedAllBox,'click',()=>{
+	for(let option of oList){
+		// console.log(oList);
+		option.checked = checkedAllBox.checked;
+	}
+	if(checkedAllBox.checked){
+		oAlltext.innerHTML = '全不选';
+	}else{
+		oAlltext.innerHTML = '全选';
+	}
+});
+addEvent(oRevBt,'click',()=>{
+	for(let option of oList){
+		option.checked = !option.checked;
+	}
+});
+addEvent(oSubmit,'click',()=>{
+	let options = [];
+	for(let option of oList){
+		if(option.checked){
+			options.push(option.value);
+		}
+	}
+	console.log(options);
+});
+</script>
+</body>
+</html>
